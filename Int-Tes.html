@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Intelligenztypen Test</title>
+  <style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f1f1f1;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+p {
+  margin: 0;
+}
+
+.question-container {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.question-statement {
+  text-align: center;
+  align-content: center;
+  justify-content: center;
+  margin-bottom: 200px;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.slider-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider-container input[type="range"] {
+  margin-left: 10px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: blue;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+#result-container {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#result-container h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+#result-container p {
+  margin: 0;
+}
+
+strong {
+  font-weight: bold;
+  color: #333;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 300px;
+  height: 8px;
+  margin-bottom: 40px;
+  background-color: #ddd;
+  border-radius: 5px;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: blue;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: blue;
+}
+
+input[type="range"]:focus {
+  opacity: 1;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: blue;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  background-color: #45a049;
+}
+
+input[type="range"]::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+input[type="range"]::-ms-thumb:hover {
+  background-color: #45a049;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Intelligenztypen Test</h1>
+  <form id="intelligence-form">
+    <p>Bitte beantworte die folgenden Aussagen von 1 (trifft nicht zu) bis 6 (trifft voll zu):</p>
+    <div id="questions-container"><br></div>
+    <button type="submit">Auswertung</button>
+  </form>
+
+  <div id="result-container"></div>
+
+  <script>
+    // Definition der Aussagen und Intelligenztypen
+    const statements = [
+      { statement: "1. Ich schreibe gerne Gedichte, Zitate, Geschichten oder Tagebücher.", intelligenceType: "Sprachliche Intelligenz" },
+      { statement: "2. Ich kann normalerweise gut mit Tieren umgehen. ", intelligenceType: "Natürliche Intelligenz" },
+      { statement: "3. Ich erinnere mich lebhaft an Details von Möbeln und der Inneneinrichtung von Räumen, in denen ich gewesen bin. ", intelligenceType: "Visuell-räumliche Intelligenz" },
+      { statement: "4. In der Schule habe ich in Mathematik und in den naturwissenschaftlichen Fächern immer gute Leistungen erbracht. ", intelligenceType: "Logisch-Mathematische Intelligenz" },
+      { statement: "5. Ich denke oft über Fragen der Theologie oder Philosophie nach. ", intelligenceType: "Intrapersonale Intelligenz" },
+      { statement: "6. Ich lerne gerne etwas über verschiedene Pflanzen- und Tierarten. ", intelligenceType: "Natürliche Intelligenz" },
+      { statement: "7. Ich tanze gerne, treibe Sport oder trainiere. ", intelligenceType: "Körperlich-kinästhetische Intelligenz" },
+      { statement: "8. Ich bin gut mit Zahlen", intelligenceType: "Logisch-mathematische Intelligenz" },
+      { statement: "9. Ich lese gerne. ", intelligenceType: "Sprachliche Intelligenz" },
+      { statement: "10. Ich mag Nähen, Schnitzen, Modellbau oder andere Tätigkeiten, die Geschicklichkeit erfordern. ", intelligenceType: "Körperlich-kinästhetische Intelligenz" },
+      { statement: "11. Ich mag Herausforderungen, die Querdenken erfordern, wie etwa Schach. ", intelligenceType: "Logisch-mathematische Intelligenz" },
+      { statement: "12. Ich kann besser lernen, wenn die Dinge durch Tabellen, Diagramme oder andere technische Illustrationen veranschaulicht werden. ", intelligenceType: "Visuell-räumliche Intelligenz" },
+      { statement: "13. Ich interessiere mich für Sport. ", intelligenceType: "Körperlich-kinästhetische Intelligenz" },
+      { statement: "14. Es fällt mir leicht zu erkennen, wie ich mich fühle und warum. ", intelligenceType: "Intrapersonale Intelligenz" },
+      { statement: "15. Ich zeichne Diagramme und Tabellen, um mir das Denken zu erleichtern. ", intelligenceType: "Logisch-mathematische Intelli" },
+      { statement: "16. Ich bin gut darin, bei Streitigkeiten oder Konflikten zwischen Personen zu vermitteln. ", intelligenceType: "Interpersonale Intelligenz" },
+      { statement: "17. Ich bin gut darin, bei Streitigkeiten oder Konflikten zwischen Personen zu vermitteln. ", intelligenceType: "Interpersonale Intelligenz" },
+      { statement: "18. Ich mag sequentielle Rätsel wie den Zauberwürfel oder Sudoku. ", intelligenceType: "Logisch-mathematische Intelligenz" },
+      { statement: "19. Ich finde es am einfachsten, Probleme zu lösen, wenn mein Körper in Bewegung ist. ", intelligenceType: "Körperlich-kinästhetische Intelligenz" },
+      { statement: "20. Ich genieße es, Zeit allein zu verbringen und meine eigenen Gefühle und Reaktionen auf Dinge zu verarbeiten. ", intelligenceType: "Intrapersonale Intelligenz" },
+      { statement: "21. Fragen wie 'Wohin steuert die Menschheit?' oder 'Warum sind wir hier?' sind für mich von Interesse. ", intelligenceType: "Intrapersonale Intelligenz" },
+      { statement: "22. Ich denke oft über den Sinn des Lebens nach. ", intelligenceType: "Intrapersonale Intelligenz" },
+      { statement: "23. Ich mache gerne lange Spaziergänge in der Natur, allein oder mit Freunden. ", intelligenceType: "Natürliche Intelligenz" },
+      { statement: "24. Ich entdecke immer wieder neue Arten von Musik. ", intelligenceType: "Musikalische Intelligenz" },
+      { statement: "25. Ich verbringe viel Zeit damit, über die Gefühle anderer nachzudenken. ", intelligenceType: "Interpersonale Intelligenz" },
+      { statement: "26. Andere kommen oft zu mir, wenn sie Unterstützung oder Rat brauchen. ", intelligenceType: "Interpersonale Intelligenz" },
+      { statement: "27. Ich mag es, Dinge zu messen oder zu kategorisieren. ", intelligenceType: "Logisch-mathematische Intelligenz" },
+      { statement: "28. Musik ist eines meiner größten Interessen. ", intelligenceType: "Musikalische Intelligenz" },
+      { statement: "29. Ich schlage oft Dinge im Wörterbuch nach. ", intelligenceType: "Sprachliche Intelligenz" },
+      { statement: "30. Ich stelle mir immer wieder tiefgehende Fragen über das Leben und die Existenz, die andere als albern empfinden. ", intelligenceType: "Intrapersonale Intelligenz" },
+      { statement: "31. Ich bin gut darin, zu erkennen, wenn andere unehrlich sind. ", intelligenceType: "Interpersonale Intelligenz" },
+      { statement: "32. Ich bin gut darin, Landkarten zu lesen und mich an unbekannten Orten zurechtzufinden. ", intelligenceType: "Visuell-räumliche Intelligenz" },
+      { statement: "33. Ich lerne gerne neue Wörter und/oder Sprachen. ", intelligenceType: "Sprachliche Intelligenz" },
+      { statement: "34. Ich fühle mich am lebendigsten, wenn ich in Kontakt mit der Natur bin. ", intelligenceType: "Natürliche Intelligenz" },
+      { statement: "35. Ich singe gerne oder spiele ein Musikinstrument. ", intelligenceType: "Musikalische Intelligenz" },
+      { statement: "36. Ich merke es, wenn eine Note nicht stimmt. ", intelligenceType: "Musikalische Intelligenz" },
+      { statement: "37. Ich kümmere mich gerne um Gärten und Pflanzen. ", intelligenceType: "Natürliche Intelligenz" },
+      { statement: "38. Ich mag Sprachen und/oder die Sozialwissenschaften. ", intelligenceType: "Sprachliche Intelligenz oder Soziale Intelligenz" },
+      { statement: "39. Es macht mir Freude zu erfahren, wie die verschiedenen Weltreligionen versucht haben, 'die großen Fragen' zu beantworten. ", intelligenceType: "Intrapersonale Intelligenz" },
+      { statement: "40. Ich verbringe gerne Zeit damit, tiefer und tiefer in die Dinge einzudringen, die in mir vorgehen. ", intelligenceType: "Intrapersonale Intelligenz" }, 
+      { statement: "41. Es macht mir nichts aus, mir die Hände schmutzig zu machen bei Aktivitäten, die das Erschaffen, Reparieren oder Bauen von Dingen beinhalten. ", intelligenceType: "Körperlich-kinästhetische Intelligenz" },
+      { statement: "42. Ich bin gut darin, einen guten Eindruck zu hinterlassen, wenn ich neue Leute treffe. ", intelligenceType: "Interpersonale Intelligenz" },
+      { statement: "43. Ich verbringe viel Zeit damit, über meine eigenen Reaktionen auf Dinge nachzudenken. ", intelligenceType: "Intrapersonale Intelligenz" },
+      { statement: "44. Ich verbringe viel Zeit damit, meine eigenen Gefühle und Reaktionen zu analysieren. ", intelligenceType: "Intrapersonale Intelligenz" },
+      { statement: "45. Oft summe ich in meinem Kopf ein Lied oder eine Melodie vor mich hin. ", intelligenceType: "Musikalische Intelligenz" },
+
+      
+      // Weitere Aussagen hier hinzufügen
+    ];
+
+// Erzeuge die Aussagen im Formular
+const questionsContainer = document.getElementById("questions-container");
+statements.forEach((stmt, index) => {
+  const questionDiv = document.createElement("div");
+  questionDiv.innerHTML = `
+    <p>${stmt.statement}</p>
+    <label>
+      <input type="range" min="1" max="6" required>
+      
+    </label>
+  `;
+  questionsContainer.appendChild(questionDiv);
+});
+
+// Funktion zur Auswertung der Antworten
+document.getElementById("intelligence-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  
+  // Sammle die Antworten
+  const answers = Array.from(questionsContainer.querySelectorAll("input[type=range]")).map(input => Number(input.value));
+  
+  // Berechne die Summen für jeden Intelligenztyp
+  const intelligenceTypes = {};
+  statements.forEach((stmt, index) => {
+    const intelligenceType = stmt.intelligenceType;
+    intelligenceTypes[intelligenceType] = (intelligenceTypes[intelligenceType] || 0) + answers[index];
+  });
+  
+  // Sortiere die Intelligenztypen nach den Summen
+  const sortedIntelligenceTypes = Object.entries(intelligenceTypes).sort((a, b) => b[1] - a[1]);
+  
+  // Zeige das Ergebnis an
+  const resultContainer = document.getElementById("result-container");
+  resultContainer.innerHTML = "<h2>Ergebnis:</h2>";
+  sortedIntelligenceTypes.forEach(([intelligenceType, sum]) => {
+    const intelligenceTypeText = sum === sortedIntelligenceTypes[0][1] ? `<strong>${intelligenceType}</strong>` : intelligenceType;
+    resultContainer.innerHTML += `<p>${intelligenceTypeText}: ${sum}</p>`;
+  });
+});
+
+  </script>
+</body>
+</html>
